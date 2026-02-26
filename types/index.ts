@@ -73,10 +73,18 @@ export interface TimeSlot {
 export interface Location {
     lat: number;
     lng: number;
+    place_name: string;
     address: string;
     city: string;
     country: string;
     distance?: number; // Distance from user in km
+}
+
+// Represents the browser's Geolocation API result after resolution.
+export interface UserGeoLocation {
+  lat: number;
+  lng: number;
+  accuracy: number; // metres
 }
 
 // Filter Types

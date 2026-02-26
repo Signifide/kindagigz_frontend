@@ -1,6 +1,6 @@
 // User & Authentication Types
 
-import { Service, Category, GalleryItem, WorkingHours, TimeSlot } from ".";
+import { Service, Category, GalleryItem, WorkingHours, TimeSlot, Location } from ".";
 
 export type UserRole = 'client' | 'professional';
 
@@ -56,6 +56,7 @@ export interface Professional {
   currency: string;
   banner_image: string | null;
   logo: string | null;
+  location_name: string;
   address: string;
   latitude: string | null;
   longitude: string | null;
@@ -76,6 +77,7 @@ export interface Professional {
   gallery?: GalleryItem[];
   created_at: string;
   updated_at: string;
+  distance_km?: number | null;
 }
 
 export interface AuthTokens {
@@ -102,7 +104,10 @@ export interface ServiceProOnboardingData {
   service_ids: number[]; // Array of service IDs (max 5)
   logo?: File;
   banner_image?: File;
+  location_name: string;
   address: string;
+  latitude: number | null;
+  longitude: number | null;
   service_radius_km?: number;
   languages?: string[];
   agreeToTerms: boolean;
