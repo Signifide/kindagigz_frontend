@@ -59,15 +59,10 @@ export const ProfessionalSimilarServices: React.FC<ProfessionalSimilarServicesPr
   }
   return (
     <section className="py-12 border-t border-gray-200">
-      <h2 className="text-2xl font-bold text-center mb-10 text-primary">You May Be Interested In</h2>
+      <h2 className="text-2xl font-bold text-center mb-10 text-secondary">You May Be Interested In</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {similarProfessionals.map((professional) => (
-          <Link
-            key={professional.id}
-            href={ROUTES.PROFESSIONAL(professional.id.toString())}
-          >
-            <ServiceProviderCard key={professional.id} professional={professional} />
-          </Link>
+          <ServiceProviderCard key={professional.id} professional={professional} />
         ))}
       </div>
     </section>
