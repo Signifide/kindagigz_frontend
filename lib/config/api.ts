@@ -4,17 +4,12 @@
  */
 
 // Environment-based base URL
-const getBaseUrl = (): string => {
-  // Check if we're in production
-  if (process.env.NODE_ENV === 'production') {
-    return process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.kindagigz.com';
-  }
-  
-  // Development - use localhost
-  return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000';
-};
+export const API_BASE_URL: string =
+  process.env.NEXT_PUBLIC_API_BASE_URL ??
+  (process.env.NODE_ENV === 'production'
+    ? 'https://api.kindagigz.com'
+    : 'http://127.0.0.1:8000');
 
-export const API_BASE_URL = getBaseUrl();
 
 // API Endpoints
 export const API_ENDPOINTS = {
