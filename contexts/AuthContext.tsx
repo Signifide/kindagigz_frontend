@@ -2,14 +2,14 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { authService } from '@/lib/services/authService';
-import { User } from '@/types/auth';
+import type { User } from '@/types/auth';
 
 interface AuthContextType {
   user: User | null;
-  isAuthenticated: boolean;
   isLoading: boolean;
+  isAuthenticated: boolean;
   setUser: (user: User | null) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,28 +19,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Load user from localStorage on mount
-    const loadUser = () => {
+    // Initialize auth state from localStorage
+    const initAuth = () => {
       try {
         const storedUser = authService.getUser();
-        const token = authService.getAccessToken();
-        
-        if (storedUser && token) {
+        const isAuthenticated = authService.isAuthenticated();
+
+        if (isAuthenticated && storedUser) {
           setUser(storedUser);
         }
       } catch (error) {
-        console.error('Error loading user:', error);
+        console.error('Error initializing auth:', error);
+        authService.clearSession();
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadUser();
+    initAuth();
   }, []);
 
-  const logout = () => {
-    authService.clearTokens();
-    authService.clearUser();
+  const logout = async () => {
+    const refreshToken = authService.getRefreshToken();
+    if (refreshToken) {
+      await authService.logout(refreshToken);
+    }
     setUser(null);
   };
 
@@ -48,8 +51,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider
       value={{
         user,
-        isAuthenticated: !!user,
         isLoading,
+        isAuthenticated: !!user && authService.isAuthenticated(),
         setUser,
         logout,
       }}
