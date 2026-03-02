@@ -13,6 +13,7 @@ import { Payments } from './sections/Payments';
 import { Analytics } from './sections/Analytics';
 import { Settings } from './sections/Settings';
 import type { Professional } from '@/types/auth';
+import { Navbar } from '../layout/Navbar/Navbar';
 
 interface DashboardLayoutProps {
   professional: Professional;
@@ -57,6 +58,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ professional }
 
       {/* Main Content */}
       <div className="flex-1 overflow-x-hidden">
+        <Navbar />
         {/* Greeting */}
         <div className="p-6">
           <DashboardGreeting professional={professional} />
