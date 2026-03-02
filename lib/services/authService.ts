@@ -4,18 +4,10 @@ import {
   RegisterData,
   AuthResponse,
   User,
-  AuthTokens,
   ApiError,
 } from '@/types/auth';
 
 class AuthService {
-  private readonly ACCESS_TOKEN_KEY = 'access_token';
-  private readonly REFRESH_TOKEN_KEY = 'refresh_token';
-  private readonly USER_KEY = 'user';
-  
-  // Token will be refreshed 5 minutes before expiry
-  private readonly REFRESH_BUFFER = 5 * 60 * 1000; // 5 minutes in ms
-
   /**
    * Register a new user
    */
@@ -27,6 +19,7 @@ class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Include cookies
         body: JSON.stringify(data),
       });
 
@@ -38,10 +31,7 @@ class AuthService {
         throw this.handleError({ response: { data: responseData, status: response.status } });
       }
 
-      // Store tokens and user
-      if (responseData.tokens) {
-        this.setTokens(responseData.tokens);
-      }
+      // Store user data
       if (responseData.user) {
         this.setUser(responseData.user);
       }
@@ -58,7 +48,7 @@ class AuthService {
   }
 
   /**
-   * Register a professional with FormData (includes files)
+   * Register a professional with FormData
    */
   async registerProfessional(formData: FormData): Promise<AuthResponse> {
     try {
@@ -66,6 +56,7 @@ class AuthService {
 
       const response = await fetch(API_ENDPOINTS.AUTH.REGISTER, {
         method: 'POST',
+        credentials: 'include', // Include cookies
         body: formData,
       });
 
@@ -77,10 +68,7 @@ class AuthService {
         throw this.handleError({ response: { data: responseData, status: response.status } });
       }
 
-      // Store tokens and user
-      if (responseData.tokens) {
-        this.setTokens(responseData.tokens);
-      }
+      // Store user data
       if (responseData.user) {
         this.setUser(responseData.user);
       }
@@ -106,6 +94,7 @@ class AuthService {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include', // Include cookies
         body: JSON.stringify(credentials),
       });
 
@@ -116,10 +105,7 @@ class AuthService {
         throw this.handleError({ response: { data: responseData, status: response.status } });
       }
 
-      // ✅ Store tokens and user immediately after successful login
-      if (responseData.tokens) {
-        this.setTokens(responseData.tokens);
-      }
+      // Store user data
       if (responseData.user) {
         this.setUser(responseData.user);
       }
@@ -138,7 +124,7 @@ class AuthService {
   /**
    * Logout user
    */
-  async logout(refreshToken: string): Promise<void> {
+  async logout(): Promise<void> {
     try {
       console.log('Attempting logout');
 
@@ -146,23 +132,22 @@ class AuthService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.getAccessToken()}`,
         },
-        body: JSON.stringify({ refresh_token: refreshToken }),
+        credentials: 'include', // Include cookies
       });
 
       const responseData = await response.json();
 
       if (!response.ok) {
-        console.warn('Backend logout error:', responseData.error || 'Unknown error');
+        console.warn('Backend logout error:', responseData.error || 'Unknown logout error');
       } else {
         console.log('Logout successful');
       }
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // Always clear local session
-      this.clearSession();
+      // Clear user data
+      this.clearUser();
     }
   }
 
@@ -175,8 +160,8 @@ class AuthService {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.getAccessToken()}`,
         },
+        credentials: 'include', // Include cookies
       });
 
       if (!response.ok) {
@@ -184,8 +169,6 @@ class AuthService {
       }
 
       const user = await response.json();
-      
-      // Update stored user
       this.setUser(user);
       
       return user;
@@ -195,105 +178,26 @@ class AuthService {
   }
 
   /**
-   * Refresh access token
+   * Refresh access token (automatic via cookie)
    */
-  async refreshAccessToken(): Promise<AuthTokens> {
+  async refreshAccessToken(): Promise<void> {
     try {
-      const refreshToken = this.getRefreshToken();
-
-      if (!refreshToken) {
-        throw new Error('No refresh token available');
-      }
-
       const response = await fetch(API_ENDPOINTS.AUTH.REFRESH_TOKEN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ refresh: refreshToken }),
+        credentials: 'include', // Include cookies
       });
 
       if (!response.ok) {
         throw new Error('Token refresh failed');
       }
 
-      const data = await response.json();
-      this.setTokens(data);
-      return data;
+      console.log('Token refreshed successfully');
     } catch (error) {
-      this.clearSession();
+      this.clearUser();
       throw this.handleError(error);
-    }
-  }
-
-  /**
-   * ✅ Check if token is expired or about to expire
-   */
-  private isTokenExpired(token: string): boolean {
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const expiryTime = payload.exp * 1000; // Convert to milliseconds
-      const currentTime = Date.now();
-      
-      // Check if token will expire in next 5 minutes
-      return expiryTime - currentTime < this.REFRESH_BUFFER;
-    } catch (error) {
-      return true;
-    }
-  }
-
-  /**
-   * ✅ Get valid access token (auto-refresh if needed)
-   */
-  async getValidAccessToken(): Promise<string | null> {
-    const accessToken = this.getAccessToken();
-    
-    if (!accessToken) {
-      return null;
-    }
-
-    // Check if token is expired or about to expire
-    if (this.isTokenExpired(accessToken)) {
-      try {
-        const tokens = await this.refreshAccessToken();
-        return tokens.access;
-      } catch (error) {
-        console.error('Failed to refresh token:', error);
-        return null;
-      }
-    }
-
-    return accessToken;
-  }
-
-  /**
-   * Token Management
-   */
-  setTokens(tokens: { access: string; refresh: string }): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(this.ACCESS_TOKEN_KEY, tokens.access);
-      localStorage.setItem(this.REFRESH_TOKEN_KEY, tokens.refresh);
-    }
-  }
-
-  getAccessToken(): string | null {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem(this.ACCESS_TOKEN_KEY);
-    }
-    return null;
-  }
-
-  getRefreshToken(): string | null {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem(this.REFRESH_TOKEN_KEY);
-    }
-    return null;
-  }
-
-  clearTokens(): void {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem(this.ACCESS_TOKEN_KEY);
-      localStorage.removeItem(this.REFRESH_TOKEN_KEY);
     }
   }
 
@@ -302,13 +206,13 @@ class AuthService {
    */
   setUser(user: User): void {
     if (typeof window !== 'undefined') {
-      localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+      localStorage.setItem('user', JSON.stringify(user));
     }
   }
 
   getUser(): User | null {
     if (typeof window !== 'undefined') {
-      const userStr = localStorage.getItem(this.USER_KEY);
+      const userStr = localStorage.getItem('user');
       return userStr ? JSON.parse(userStr) : null;
     }
     return null;
@@ -316,15 +220,14 @@ class AuthService {
 
   clearUser(): void {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem(this.USER_KEY);
+      localStorage.removeItem('user');
     }
   }
 
   /**
-   * ✅ Clear entire session
+   * Clear entire session
    */
   clearSession(): void {
-    this.clearTokens();
     this.clearUser();
   }
 
@@ -332,11 +235,11 @@ class AuthService {
    * Check if user is authenticated
    */
   isAuthenticated(): boolean {
-    return !!this.getAccessToken() && !!this.getUser();
+    return !!this.getUser();
   }
 
   /**
-   * ✅ Check if user has specific role
+   *  Check if user has specific role
    */
   hasRole(role: 'client' | 'professional'): boolean {
     const user = this.getUser();

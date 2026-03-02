@@ -27,7 +27,8 @@ export const API_ENDPOINTS = {
   PROFESSIONALS: {
     LIST: `${API_BASE_URL}/api/professionals`,
     DETAIL: (id: string) => `${API_BASE_URL}/api/professionals/${id}/`,
-    PROFILE: (id: string) => `${API_BASE_URL}/api/professionals/profile/${id}/`,
+    PROFILE: `${API_BASE_URL}/api/professionals/profile`,
+    PROFILE_DUP: (id: string) => `${API_BASE_URL}/api/professionals/profile/${id}/`,
   },
   
   SERVICES: {
