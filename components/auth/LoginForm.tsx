@@ -29,10 +29,6 @@ export function LoginForm() {
 
     try {
       const response = await authService.login(formData);
-      
-      // Store tokens and user data
-      authService.setTokens(response.tokens);
-      authService.setUser(response.user);
 
       // Update auth context
       setUser(response.user);
@@ -57,16 +53,16 @@ export function LoginForm() {
       toast.dismiss(loadingToast);
       const apiError = err as ApiError;
       
-      console.log('Caught error in LoginForm:', apiError); // Debug
+      console.log('Caught error in LoginForm:', apiError);
       
-      // ✅ Extract and display the specific error message
+      // Extract and display the specific error message
       if (apiError.message) {
         setError(apiError.message);
         toast.error(apiError.message, {
           duration: 5000,
         });
       } else {
-        // ✅ Fallback to generic message only if no specific message
+        // Fallback to generic message only if no specific message
         const errorMessage = 'Login failed. Please check your credentials and try again.';
         setError(errorMessage);
         toast.error(errorMessage, {

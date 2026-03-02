@@ -125,9 +125,7 @@ export function SignupForm() {
         // ✅ Call the professional registration method
         const response = await authService.registerProfessional(registrationData);
         
-        // Store tokens and user data
-        authService.setTokens(response.tokens);
-        authService.setUser(response.user);
+        // Store user data
         setUser(response.user);
 
         // Success message
@@ -145,9 +143,7 @@ export function SignupForm() {
         // ✅ Use JSON for client registration (no files)
         const response = await authService.register(formData);
         
-        // Store tokens and user data
-        authService.setTokens(response.tokens);
-        authService.setUser(response.user);
+        // Store user data
         setUser(response.user);
 
         // Success message
