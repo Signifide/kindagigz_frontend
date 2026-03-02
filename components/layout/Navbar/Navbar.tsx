@@ -65,12 +65,11 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
     const loadingToast = toast.loading('Logging out...');
 
     try {
-      const refreshToken = authService.getRefreshToken();
-      if (refreshToken) {
-        await authService.logout(refreshToken);
-      }
-
-      contextLogout();
+      await authService.logout();
+      
+      // Clear auth context
+      await contextLogout();
+      
       toast.dismiss(loadingToast);
       toast.success('Logged out successfully', { duration: 2000 });
       setShowLogoutModal(false);

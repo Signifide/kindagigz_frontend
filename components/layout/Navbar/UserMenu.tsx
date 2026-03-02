@@ -58,13 +58,10 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
     const loadingToast = toast.loading('Logging out...');
 
     try {
-      const refreshToken = authService.getRefreshToken();
-      if (refreshToken) {
-        await authService.logout(refreshToken);
-      }
+      await authService.logout();
 
       // Clear auth context
-      contextLogout();
+      await contextLogout();
 
       // Dismiss loading and show success
       toast.dismiss(loadingToast);
