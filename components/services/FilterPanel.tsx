@@ -7,6 +7,7 @@ import { LocationPicker } from '../ui/LocationPicker';
 import type { Professional } from '@/types/auth';
 import type { Category } from '@/types';
 import type { PlaceDetails } from '@/lib/hooks/useGooglePlaces';
+import { toast } from 'react-hot-toast';
 
 interface FiltersPanelProps {
   onFilterChange: (filters: any) => void;
@@ -62,10 +63,16 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
   };
 
   const handleLiveLocation = () => {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      toast.error("Geolocation is not supported by your browser");
+      return;
+    }
+
+    const loadingToast = toast.loading("Fetching your location...");
     
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        toast.dismiss(loadingToast);
         const { latitude, longitude } = position.coords;
         const newFilters = { 
           ...filters, 
@@ -75,12 +82,31 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
         };
         setFilters(newFilters);
         onFilterChange(newFilters);
+        toast.success("Location updated!");
       },
-      (error) => console.error("Error fetching location", error)
+      (error) => {
+        toast.dismiss(loadingToast);
+        let message = "An unknown error occurred while fetching location.";
+        
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            message = "Location access denied. Please enable it in your browser settings.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            message = "Location information is unavailable.";
+            break;
+          case error.TIMEOUT:
+            message = "The request to get user location timed out.";
+            break;
+        }
+        toast.error(message);
+        console.error("Geolocation Error:", error);
+      },
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
     );
   };
 
-  // ✅ Get professional count per category
+  // Get professional count per category
   const getCategoryCount = (categoryId: number) => {
     return professionals.filter(prof => prof.category.id === categoryId).length;
   };
