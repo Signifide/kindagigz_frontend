@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils/cn';
 
 interface ServicesListProps {
   professionals: Professional[];
+  visibleCount: number;
+  onLoadMore: () => void;
   isLoading: boolean;
   showMapView: boolean;
   onClearFilters: () => void;
@@ -14,10 +16,16 @@ interface ServicesListProps {
 
 export const ServicesList: React.FC<ServicesListProps> = ({ 
   professionals, 
+  visibleCount,
+  onLoadMore,
   isLoading,
   showMapView, 
   onClearFilters
 }) => {
+  // Slicing the professionals based on visibleCount
+  const displayedProfessionals = professionals.slice(0, visibleCount);
+  const hasMore = professionals.length > visibleCount;
+
   if (isLoading) {
     return (
       <div className={cn(
@@ -53,15 +61,19 @@ export const ServicesList: React.FC<ServicesListProps> = ({
         "grid gap-6",
         showMapView ? "grid-cols-1 xl:grid-cols-2" : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
       )}>
-        {professionals.map((professional) => (
+        {displayedProfessionals.map((professional) => (
           <ServiceProviderCard key={professional.id} professional={professional} />
         ))}
       </div>
       
-      {professionals.length > 0 && (
+      {/* Only show "Load More" button if there are items left in the full array */}
+      {hasMore && (
         <div className="text-center pt-8">
-          <button className="px-6 py-3 border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition-all font-semibold">
-            Load More Professionals
+          <button 
+            onClick={onLoadMore}
+            className="px-8 py-3 border-2 border-primary text-primary rounded-xl hover:bg-primary hover:text-white transition-all font-bold shadow-sm"
+          >
+            Load More Professionals ({professionals.length - visibleCount} remaining)
           </button>
         </div>
       )}

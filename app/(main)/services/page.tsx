@@ -5,7 +5,6 @@ import { Navbar } from '@/components/layout/Navbar/Navbar';
 import { FiltersPanel } from '@/components/services/FilterPanel';
 import { ServicesList } from '@/components/services/ServicesList';
 import { ServicesMapView } from '@/components/services/ServicesMapView';
-import { ServiceProviderCard } from '@/components/services/ServiceProviderCard';
 import { Professional } from '@/types/auth';
 import { professionalService } from '@/lib/services/professionalService';
 
@@ -14,9 +13,12 @@ export default function ServicesPage() {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [filteredProfessionals, setFilteredProfessionals] = useState<Professional[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(6);
   const [activeFilters, setActiveFilters] = useState<{
+    keywords?: string;
     category?: string;
-    city?: string;
+    location?: string;
+    proximity?: number;
     minRating?: number;
     priceRange?: [number, number];
   }>({});
@@ -43,36 +45,38 @@ export default function ServicesPage() {
   useEffect(() => {
     let filtered = [...professionals];
 
-    // Filter by category
+    // 1. Keyword Search (Name or Service)
+    if (activeFilters.keywords) {
+      const query = activeFilters.keywords.toLowerCase();
+      filtered = filtered.filter(prof => {
+        const nameMatch = prof.business_name?.toLowerCase().includes(query);
+        const serviceMatch = prof.services?.some(s => s.name.toLowerCase().includes(query));
+        const aboutMatch = prof.about?.toLowerCase().includes(query);
+        return nameMatch || serviceMatch || aboutMatch;
+      });
+    }
+
+    // 2. Category Filter
     if (activeFilters.category) {
       filtered = filtered.filter(prof => 
         prof.category.slug === activeFilters.category
       );
     }
 
-    // Filter by city
-    if (activeFilters.city) {
+    // 3. Location Filter (City Match)
+    if (activeFilters.location && activeFilters.location !== 'Current Location') {
+      const locQuery = activeFilters.location.toLowerCase();
       filtered = filtered.filter(prof => 
-        prof.user.city.toLowerCase() === activeFilters.city?.toLowerCase()
-      );
-    }
-
-    // Filter by rating
-    if (activeFilters.minRating) {
-      filtered = filtered.filter(prof => 
-        parseFloat(prof.average_rating) >= activeFilters.minRating!
+        prof.user.city?.toLowerCase().includes(locQuery)
       );
     }
 
     setFilteredProfessionals(filtered);
+    setVisibleCount(6);
   }, [activeFilters, professionals]);
 
-  const handleFilterChange = (filters: any) => {
-    setActiveFilters(filters);
-  };
-
-  const handleClearFilters = () => {
-    setActiveFilters({});
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + 6);
   };
 
   return (
@@ -108,7 +112,7 @@ export default function ServicesPage() {
                 <h2 className="text-2xl font-bold text-primary">
                   Results {!isLoading && `(${filteredProfessionals.length})`}
                 </h2>
-                <select 
+                {/* <select 
                   className="bg-gray-50 px-4 py-2 rounded-xl text-sm font-medium border-none focus:ring-2 focus:ring-secondary"
                   onChange={(e) => {
                     const sorted = [...filteredProfessionals].sort((a, b) => {
@@ -124,11 +128,13 @@ export default function ServicesPage() {
                 >
                   <option value="relevant">Most Relevant</option>
                   <option>Highest Rated</option>
-                </select>
+                </select> */}
               </div>
 
               <ServicesList 
                 professionals={filteredProfessionals}
+                visibleCount={visibleCount}
+                onLoadMore={handleLoadMore}
                 isLoading={isLoading} 
                 showMapView={showMapView} 
                 onClearFilters={() => setActiveFilters({})} 
