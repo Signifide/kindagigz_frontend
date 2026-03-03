@@ -339,11 +339,11 @@ export function LocationPicker({
       )}
 
       {/* Success hint */}
-      {hasSelection && !error && (
+      {/* {hasSelection && !error && (
         <p className="mt-1.5 text-xs text-green-600 flex items-center gap-1">
           <span>✓</span> Location confirmed with coordinates
         </p>
-      )}
+      )} */}
 
       {/* Places API load error */}
       {placesError && (

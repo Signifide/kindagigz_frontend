@@ -509,7 +509,7 @@ export function ServiceProOnboardingForm({
         />
 
         {/* Show resolved coordinates as a subtle confirmation */}
-        {formData.latitude !== null && formData.longitude !== null && (
+        {/* {formData.latitude !== null && formData.longitude !== null && (
           <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
             <span>📍</span>
             <span>
@@ -520,7 +520,7 @@ export function ServiceProOnboardingForm({
               {formData.latitude.toFixed(5)}, {formData.longitude.toFixed(5)}
             </span>
           </div>
-        )}
+        )} */}
       </div>
 
       {/* Service Radius */}
