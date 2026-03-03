@@ -12,7 +12,7 @@ export function ToastProvider() {
         // Default options
         duration: 4000,
         style: {
-          background: '#C7D2FE',
+          background: '#dfe5ff',
           color: '#1a1a2e',
           border: '2px solid #e8e8e8',
           borderRadius: '12px',
