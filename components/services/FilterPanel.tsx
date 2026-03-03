@@ -215,7 +215,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
           )}
 
           {/* Price Range */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-semibold text-primary mb-2">
               Price Range (KES)
             </label>
@@ -235,10 +235,10 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
                 className="px-4 py-2 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* Rating */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-semibold text-primary mb-2">
               Minimum Rating
             </label>
@@ -257,10 +257,10 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
                 </button>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Availability */}
-          <div>
+          {/* <div>
             <label className="block text-sm font-semibold text-primary mb-2">
               Availability
             </label>
@@ -286,7 +286,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
                 🟢 Available Now
               </button>
             </div>
-          </div>
+          </div> */}
 
           {/* Action Buttons */}
           <div className="space-y-2 pt-4 border-t border-gray-200">
