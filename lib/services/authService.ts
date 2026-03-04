@@ -13,7 +13,6 @@ class AuthService {
    */
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
-      console.log('Sending registration data:', data);
       const response = await fetch(API_ENDPOINTS.AUTH.REGISTER, {
         method: 'POST',
         headers: {
@@ -165,7 +164,7 @@ class AuthService {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch user');
+        throw new Error('Failed to fetch user: Unauthorized');
       }
 
       const user = await response.json();

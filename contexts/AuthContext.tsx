@@ -19,22 +19,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Initialize auth state from localStorage
-    const initAuth = () => {
+    const initAuth = async () => {
+      // Check if localStorage thinks we are logged in
+    const storedUser = authService.getUser();
+    
+    if (storedUser) {
       try {
-        const storedUser = authService.getUser();
-        const isAuthenticated = authService.isAuthenticated();
-
-        if (isAuthenticated && storedUser) {
-          setUser(storedUser);
-        }
+        // Verify session with the Backend
+        const freshUser = await authService.getCurrentUser(); 
+        setUser(freshUser);
+        // Update localStorage with freshest data
+        authService.setUser(freshUser); 
       } catch (error) {
-        console.error('Error initializing auth:', error);
-        authService.clearSession();
-      } finally {
-        setIsLoading(false);
+        // If fails (401 Unauthorized), the cookie is gone/invalid
+        console.error('Session invalid, logging out');
+        authService.clearUser();
+        setUser(null);
       }
-    };
+    }
+    setIsLoading(false);
+  };
 
     initAuth();
   }, []);
