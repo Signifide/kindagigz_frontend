@@ -1,4 +1,5 @@
 import { API_ENDPOINTS } from '@/lib/config/api';
+import { apiClient } from '../api/apiClient';
 import {
   LoginCredentials,
   RegisterData,
@@ -119,6 +120,19 @@ class AuthService {
       throw this.handleError(error);
     }
   }
+
+  async login(credentials: LoginCredentials) {
+    return apiClient(API_ENDPOINTS.AUTH.LOGIN, {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    });
+  },
+
+  async getCurrentUser() {
+    return apiClient(API_ENDPOINTS.AUTH.CURRENT_USER, {
+      method: 'GET',
+    });
+  },
 
   /**
    * Logout user
