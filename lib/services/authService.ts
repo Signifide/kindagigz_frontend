@@ -1,5 +1,5 @@
 import { API_ENDPOINTS } from '@/lib/config/api';
-import { apiClient } from '../api/apiClient';
+import { apiClient, apiPost, apiGet } from '../api/apiClient';
 import {
   LoginCredentials,
   RegisterData,
@@ -14,36 +14,24 @@ class AuthService {
    */
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
-      const response = await fetch(API_ENDPOINTS.AUTH.REGISTER, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // Include cookies
-        body: JSON.stringify(data),
-      });
+      const response = await apiPost<AuthResponse>(
+        API_ENDPOINTS.AUTH.REGISTER,
+        data,
+        {
+          customErrorMessages: {
+            400: 'Invalid registration data. Please check all fields.',
+            429: 'Too many registration attempts. Please try again later.',
+          },
+        }
+      );
 
-      const responseData = await response.json();
-      console.log('Registration response status:', response.status);
-
-      if (!response.ok) {
-        console.error('Registration failed:', responseData);
-        throw this.handleError({ response: { data: responseData, status: response.status } });
+      if (response.user) {
+        this.setUser(response.user);
       }
 
-      // Store user data
-      if (responseData.user) {
-        this.setUser(responseData.user);
-      }
-
-      return responseData;
+      return response;
     } catch (error) {
-      if ((error as ApiError).message) {
-        console.error('Registration error:', error);
-        throw error;
-      }
-      console.error('Unexpected registration error:', error);
-      throw this.handleError(error);
+      throw error;
     }
   }
 
@@ -52,35 +40,27 @@ class AuthService {
    */
   async registerProfessional(formData: FormData): Promise<AuthResponse> {
     try {
-      console.log('Sending professional registration data');
+      const response = await apiClient<AuthResponse>(
+        API_ENDPOINTS.AUTH.REGISTER,
+        {
+          method: 'POST',
+          body: formData,
+          
+          customErrorMessages: {
+            400: 'Invalid professional registration data. Please check all required fields.',
+            413: 'Uploaded files are too large. Please use smaller images.',
+            429: 'Too many registration attempts. Please try again later.',
+          },
+        }
+      );
 
-      const response = await fetch(API_ENDPOINTS.AUTH.REGISTER, {
-        method: 'POST',
-        credentials: 'include', // Include cookies
-        body: formData,
-      });
-
-      const responseData = await response.json();
-      console.log('Professional registration response status:', response.status);
-
-      if (!response.ok) {
-        console.error('Professional registration failed:', responseData);
-        throw this.handleError({ response: { data: responseData, status: response.status } });
+      if (response.user) {
+        this.setUser(response.user);
       }
 
-      // Store user data
-      if (responseData.user) {
-        this.setUser(responseData.user);
-      }
-
-      return responseData;
+      return response;
     } catch (error) {
-      if ((error as ApiError).message) {
-        console.error('Professional registration error:', error);
-        throw error;
-      }
-      console.error('Unexpected professional registration error:', error);
-      throw this.handleError(error);
+      throw error;
     }
   }
 
@@ -89,77 +69,48 @@ class AuthService {
    */
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
-      const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // Include cookies
-        body: JSON.stringify(credentials),
-      });
+      const response = await apiPost<AuthResponse>(
+        API_ENDPOINTS.AUTH.LOGIN,
+        credentials,
+        {
+          customErrorMessages: {
+            400: 'Invalid email or password.',
+            401: 'Invalid credentials. Please try again.',
+            429: 'Too many login attempts. Please wait before trying again.',
+            503: 'Login service is temporarily unavailable. Please try again in a few minutes.',
+          },
+        }
+      );
 
-      const responseData = await response.json();
-      console.log('Login response status:', response.status);
-
-      if (!response.ok) {
-        throw this.handleError({ response: { data: responseData, status: response.status } });
+      if (response.user) {
+        this.setUser(response.user);
       }
 
-      // Store user data
-      if (responseData.user) {
-        this.setUser(responseData.user);
-      }
-
-      return responseData;
+      return response;
     } catch (error) {
-      if ((error as ApiError).message) {
-        console.error('Login error:', error);
-        throw error;
-      }
-      console.error('Unexpected login error:', error);
-      throw this.handleError(error);
+      throw error;
     }
   }
-
-  async login(credentials: LoginCredentials) {
-    return apiClient(API_ENDPOINTS.AUTH.LOGIN, {
-      method: 'POST',
-      body: JSON.stringify(credentials),
-    });
-  },
-
-  async getCurrentUser() {
-    return apiClient(API_ENDPOINTS.AUTH.CURRENT_USER, {
-      method: 'GET',
-    });
-  },
 
   /**
    * Logout user
    */
   async logout(): Promise<void> {
     try {
-      console.log('Attempting logout');
-
-      const response = await fetch(API_ENDPOINTS.AUTH.LOGOUT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // Include cookies
-      });
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        console.warn('Backend logout error:', responseData.error || 'Unknown logout error');
-      } else {
-        console.log('Logout successful');
-      }
+      await apiPost(
+        API_ENDPOINTS.AUTH.LOGOUT,
+        {},
+        {
+          customErrorMessages: {
+            401: 'Session already expired.',
+          },
+          showToast: false, // Don't show error toast for logout
+          throwOnError: false, // Don't throw error for logout
+        }
+      );
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      // Clear user data
       this.clearUser();
     }
   }
@@ -169,24 +120,17 @@ class AuthService {
    */
   async getCurrentUser(): Promise<User> {
     try {
-      const response = await fetch(API_ENDPOINTS.AUTH.CURRENT_USER, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+      const user = await apiGet<User>(API_ENDPOINTS.AUTH.CURRENT_USER, {
+        customErrorMessages: {
+          401: 'Please log in to continue.',
+          403: 'Access denied.',
         },
-        credentials: 'include', // Include cookies
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch user: Unauthorized');
-      }
-
-      const user = await response.json();
       this.setUser(user);
-      
       return user;
     } catch (error) {
-      throw this.handleError(error);
+      throw error;
     }
   }
 
@@ -195,22 +139,19 @@ class AuthService {
    */
   async refreshAccessToken(): Promise<void> {
     try {
-      const response = await fetch(API_ENDPOINTS.AUTH.REFRESH_TOKEN, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // Include cookies
-      });
-
-      if (!response.ok) {
-        throw new Error('Token refresh failed');
-      }
-
-      console.log('Token refreshed successfully');
+      await apiPost(
+        API_ENDPOINTS.AUTH.REFRESH_TOKEN,
+        {},
+        {
+          customErrorMessages: {
+            401: 'Session expired. Please log in again.',
+          },
+          showToast: false, // Silent refresh
+        }
+      );
     } catch (error) {
       this.clearUser();
-      throw this.handleError(error);
+      throw error;
     }
   }
 
