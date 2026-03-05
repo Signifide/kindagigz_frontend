@@ -23,7 +23,7 @@ export const CategoriesSection: React.FC = () => {
         const categoriesData = await categoryService.getCategories();
         
         // Fetch professional stats to get accurate counts per category
-        const profStats = await professionalService.getStats();
+        const profStats = await professionalService.getProfessionalStats();
         
         // Map category names to IDs for counts
         const countMap: Record<number, number> = {};

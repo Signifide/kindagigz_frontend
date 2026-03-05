@@ -22,7 +22,7 @@ export const Overview: React.FC<OverviewProps> = ({ professional }) => {
       setIsLoading(true);
       
       // Fetch stats
-      const statsData = await dashboardService.getStats();
+      const statsData = await dashboardService.getDashboardStats();
       if (statsData) {
         setStats(statsData);
       } else {
