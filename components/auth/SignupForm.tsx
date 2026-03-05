@@ -70,7 +70,7 @@ export function SignupForm() {
     try {
       if (professionalData && formData.role === 'professional') {
         const registrationData = new FormData();
-        
+
         // Add basic user data
         // Object.entries(formData).forEach(([key, value]) => {
         //   if (key !== 'password_confirm') {
@@ -79,7 +79,7 @@ export function SignupForm() {
         // });
 
         Object.entries(formData).forEach(([key, value]) => {
-            registrationData.append(key, value.toString());
+          registrationData.append(key, value.toString());
         });
 
         // Add professional-specific data
@@ -98,9 +98,9 @@ export function SignupForm() {
         if (lngStr !== undefined) {
           registrationData.append('longitude', lngStr);
         }
-        
+
         registrationData.append('service_radius_km', professionalData.service_radius_km?.toString() || '10');
-        
+
         professionalData.service_ids.forEach((id) => {
           // registrationData.append('service_ids', id.toString());
           registrationData.append('service_ids', id.toString());
@@ -109,22 +109,22 @@ export function SignupForm() {
         if (professionalData.tagline) {
           registrationData.append('tagline', professionalData.tagline);
         }
-        
+
         if (professionalData.logo) {
           registrationData.append('logo', professionalData.logo);
         }
-        
+
         if (professionalData.banner_image) {
           registrationData.append('banner_image', professionalData.banner_image);
         }
-        
+
         if (professionalData.languages && professionalData.languages.length > 0) {
           registrationData.append('languages', JSON.stringify(professionalData.languages));
         }
 
         // ✅ Call the professional registration method
         const response = await authService.registerProfessional(registrationData);
-        
+
         // Store user data
         setUser(response.user);
 
@@ -142,7 +142,7 @@ export function SignupForm() {
       } else {
         // ✅ Use JSON for client registration (no files)
         const response = await authService.register(formData);
-        
+
         // Store user data
         setUser(response.user);
 

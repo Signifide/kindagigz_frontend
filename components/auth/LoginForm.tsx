@@ -52,9 +52,9 @@ export function LoginForm() {
     } catch (err: any) {
       toast.dismiss(loadingToast);
       const apiError = err as ApiError;
-      
+
       console.log('Caught error in LoginForm:', apiError);
-      
+
       // Extract and display the specific error message
       if (apiError.message) {
         setError(apiError.message);

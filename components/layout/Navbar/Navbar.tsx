@@ -66,10 +66,10 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
 
     try {
       await authService.logout();
-      
+
       // Clear auth context
       await contextLogout();
-      
+
       toast.dismiss(loadingToast);
       toast.success('Logged out successfully', { duration: 2000 });
       setShowLogoutModal(false);
@@ -100,16 +100,16 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
           "border-2 shadow-md max-w-7xl mx-auto transition-all duration-200",
           // Dynamic border radius - full when closed, only top when mobile menu is open
           isMobileMenuOpen ? "rounded-lg" : "rounded-full",
-          isTransparent 
-            ? "bg-secondary/80 backdrop-blur-lg border-secondary/30" 
+          isTransparent
+            ? "bg-secondary/80 backdrop-blur-lg border-secondary/30"
             : "bg-secondary border-black/10"
         )}>
           <div className="px-6 sm:px-8 lg:px-10">
             <div className="flex items-center justify-between h-16">
               {/* Logo */}
               <Link href={ROUTES.HOME} className="flex items-center space-x-2 shrink-0">
-                <Image 
-                  src="/kinda-gigz-logo-zoomed.png" 
+                <Image
+                  src="/kinda-gigz-logo-zoomed.png"
                   alt="KindaGigz logo"
                   width={40}
                   height={40}
@@ -206,7 +206,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
                 {NAV_LINKS.map((link) => {
                   if (link.hasDropdown && link.dropdownItems) {
                     const isOpen = openMobileDropdown === link.label;
-                    
+
                     return (
                       <div key={link.label} className="space-y-1">
                         {/* Dropdown Header */}
@@ -227,7 +227,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
                         </button>
-                        
+
                         {/* Dropdown Items */}
                         {isOpen && (
                           <div className="pl-2 space-y-1">
@@ -257,8 +257,8 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
                       href={link.href}
                       className={cn(
                         'block px-4 py-2 text-sm font-semibold rounded-lg transition-colors',
-                        isActive 
-                          ? 'text-primary bg-white/30' 
+                        isActive
+                          ? 'text-primary bg-white/30'
                           : 'text-primary/80 hover:bg-white/20 hover:text-primary'
                       )}
                       onClick={() => setIsMobileMenuOpen(false)}
@@ -329,7 +329,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
                               <span>{item.label}</span>
                             </Link>
                           ))}
-                          
+
                           {/* Logout Button */}
                           <button
                             onClick={handleLogoutClick}

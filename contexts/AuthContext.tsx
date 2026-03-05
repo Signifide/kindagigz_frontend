@@ -21,24 +21,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const initAuth = async () => {
       // Check if localStorage thinks we are logged in
-    const storedUser = authService.getUser();
-    
-    if (storedUser) {
-      try {
-        // Verify session with the Backend
-        const freshUser = await authService.getCurrentUser(); 
-        setUser(freshUser);
-        // Update localStorage with freshest data
-        authService.setUser(freshUser); 
-      } catch (error) {
-        // If fails (401 Unauthorized), the cookie is gone/invalid
-        console.error('Session invalid, logging out');
-        authService.clearUser();
-        setUser(null);
+      const storedUser = authService.getUser();
+
+      if (storedUser) {
+        try {
+          const freshUser = await authService.getCurrentUser();
+          setUser(freshUser);
+          authService.setUser(freshUser);
+        } catch (error) {
+          // If fails (401 Unauthorized), the cookie is gone/invalid
+          console.error('Session invalid, logging out');
+          authService.clearUser();
+          setUser(null);
+        }
       }
-    }
-    setIsLoading(false);
-  };
+      setIsLoading(false);
+    };
 
     initAuth();
   }, []);

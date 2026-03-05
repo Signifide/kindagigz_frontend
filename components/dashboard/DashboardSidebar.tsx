@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { ROUTES} from '@/lib/constants/routes';
+import { ROUTES } from '@/lib/constants/routes';
 import { authService } from '@/lib/services/authService';
 import { useAuth } from '@/contexts/AuthContext';
 import { Professional } from '@/types/auth';
@@ -96,11 +96,10 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             <button
               key={section.id}
               onClick={() => onSectionChange(section.id)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                activeSection === section.id
-                  ? 'bg-secondary text-primary font-semibold shadow-lg'
-                  : 'text-white hover:bg-white/10'
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeSection === section.id
+                ? 'bg-secondary text-primary font-semibold shadow-lg'
+                : 'text-white hover:bg-white/10'
+                }`}
             >
               <span className="text-xl">{section.icon}</span>
               <span>{section.name}</span>
