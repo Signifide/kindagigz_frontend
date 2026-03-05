@@ -1,6 +1,8 @@
 import { API_ENDPOINTS } from '@/lib/config/api';
 import { authService } from './authService';
+import { apiGet, apiPatch } from '../api/apiClient';
 import type { DashboardStats, Booking, Message, Client, Review, Payment, AnalyticsData } from '@/types/dashboard';
+import { Professional } from '@/types/auth';
 
 class DashboardService {
   /**
@@ -15,19 +17,31 @@ class DashboardService {
   /**
    * Get dashboard overview stats
    */
-  async getStats(): Promise<DashboardStats | null> {
-    try {
-      const response = await fetch(`${API_ENDPOINTS.PROFESSIONALS.PROFILE}/stats/`, {
-        headers: this.getAuthHeaders(),
-        credentials: 'include', // Send cookies
-      });
+  async getDashboardStats(): Promise<any> {
+    return apiGet(`${API_ENDPOINTS.PROFESSIONALS.PROFILE}/stats/`, {
+      customErrorMessages: {
+        401: 'Session expired. Please log in to see your earnings.',
+        403: 'This area is reserved for verified professionals.',
+      },
+    });
+  }
 
-      if (!response.ok) return null;
-      return await response.json();
-    } catch (error) {
-      console.error('Error fetching dashboard stats:', error);
-      return null;
-    }
+  /**
+   * Update professional profile (AUTHENTICATED)
+   */
+  async updateProfile(profileId: number, data: Partial<Professional>): Promise<Professional> {
+    return apiPatch<Professional>(
+      API_ENDPOINTS.PROFESSIONALS.DETAIL(profileId.toString()),
+      data,
+      {
+        customErrorMessages: {
+          400: 'Invalid profile data. Please check all fields.',
+          401: 'Please log in to update your profile.',
+          403: 'You don\'t have permission to update this profile.',
+          404: 'Profile not found.',
+        },
+      }
+    );
   }
 
   /**
@@ -35,7 +49,7 @@ class DashboardService {
    */
   async getBookings(status?: string): Promise<Booking[]> {
     try {
-      const url = status 
+      const url = status
         ? `${API_ENDPOINTS.PROFESSIONALS.PROFILE}/bookings/?status=${status}`
         : `${API_ENDPOINTS.PROFESSIONALS.PROFILE}/bookings/`;
 
