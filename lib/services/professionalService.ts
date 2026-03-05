@@ -1,4 +1,5 @@
 import { API_ENDPOINTS } from '@/lib/config/api';
+import { apiGet, apiPost, apiPut, apiPatch } from '../api/apiClient';
 import { Professional } from '@/types/auth';
 
 // Paginated response type
@@ -19,41 +20,25 @@ class ProfessionalService {
     limit?: number;
   }): Promise<Professional[]> {
     try {
-      const queryParams = new URLSearchParams();
-      
-      if (params?.city) {
-        queryParams.append('city', params.city);
-      }
-      
-      if (params?.category) {
-        queryParams.append('category', params.category);
-      }
-      
-      const url = params
-        ? `${API_ENDPOINTS.PROFESSIONALS.LIST}?${queryParams.toString()}`
-        : API_ENDPOINTS.PROFESSIONALS.LIST;
+      const data = await apiGet<PaginatedResponse<Professional>>(
+        API_ENDPOINTS.PROFESSIONALS.LIST,
+        {
+          params: params as Record<string, string>,
+          // Next.js specific caching
+          next: { revalidate: 60 }, 
+          showToast: false, // Don't annoy users with toasts for background list loads
+          customErrorMessages: {
+            503: 'Professional listing is temporarily offline.',
+          },
+        }
+      );
 
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // Add cache revalidation for fresh data
-        next: { revalidate: 60 }, // Revalidate every 60 seconds
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch professionals');
-      }
-
-      const data: PaginatedResponse<Professional> = await response.json();
       let professionals = data.results || [];
-      
-      // Apply limit if specified
+
       if (params?.limit && professionals.length > params.limit) {
         professionals = professionals.slice(0, params.limit);
       }
-      
+
       return professionals;
     } catch (error) {
       console.error('Error fetching professionals:', error);
@@ -157,7 +142,7 @@ class ProfessionalService {
   /**
    * Get professional statistics
    */
-  async getStats(): Promise<{
+  async getProfessionalStats(): Promise<{
     total: number;
     byCategory: Record<string, number>;
     byCity: Record<string, number>;
