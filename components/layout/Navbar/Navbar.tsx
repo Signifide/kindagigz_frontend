@@ -312,7 +312,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
                         </div>
                       </button>
 
-                      {/* User Menu Items - UPDATED */}
+                      {/* User Menu Items */}
                       {openMobileDropdown === 'userMenu' && (
                         <div className="space-y-1 pl-2">
                           {getUserMenuItems().map((item) => (
@@ -342,8 +342,14 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
                       )}
                     </>
                   ) : (
-                    <>
+                    <div className="flex flex-row items-center gap-2 sm:gap-3">
                       <Link href={ROUTES.LOGIN}>
+                          {/* <button className="px-3 sm:px-4 py-2 text-sm font-semibold text-primary bg-white/90 hover:bg-white border-2 border-primary rounded-lg transition-all duration-200 hover:scale-105">
+                            Log In
+                          </button>
+                        </Link>
+                        <Link href={ROUTES.SIGNUP}>
+                          <button className="px-3 sm:px-4 py-2 text-sm font-semibold text-primary bg-secondary hover:bg-secondary/90 rounded-lg transition-all duration-200 hover:scale-105 shadow-md"></button> */}
                         <Button variant="ghost" size="md" className="w-full">
                           Log In
                         </Button>
@@ -353,7 +359,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
                           Sign Up
                         </Button>
                       </Link>
-                    </>
+                    </div>
                   )}
                 </div>
               </div>

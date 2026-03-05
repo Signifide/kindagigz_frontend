@@ -29,7 +29,7 @@ export default async function ProfessionalPage({
     }
 
     return (
-        <div className="min-h-screen bg-primary pb-12">
+        <div className="min-h-screen bg-primary pb-12 overflow-x-hidden w-full">
             <Navbar variant="transparent" />
             {/* This is the boundary. We pass DATA (professional) 
          but NOT functions/event-handlers. 
@@ -45,7 +45,6 @@ export default async function ProfessionalPage({
         </div>
     );
 }
-
 
 
 /*

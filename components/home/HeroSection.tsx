@@ -25,6 +25,19 @@ export const HeroSection: React.FC = () => {
         />
       </div>
 
+      {/* Mobile Hero Image - Background Overlay Effect */}
+      <div className="lg:hidden absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/95 via-primary/90 to-primary z-10" />
+        <Image
+          src="/images/hero-section-image-without-bg.png"
+          alt="KindaGigz professionals"
+          width={800}
+          height={800}
+          className="absolute top-0 right-0 w-full h-full object-cover object-right opacity-20 scale-110"
+          priority
+        />
+      </div>
+
       {/* Integrated Navbar */}
       <Navbar />
 
@@ -41,7 +54,7 @@ export const HeroSection: React.FC = () => {
 
             {/* Main Heading */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Find Top Tier Pros & Real Jobs.
+              Find Top Tier Service Pros & Real Jobs.
               <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-secondary via-secondary to-white">
                 Get the job done—locally, reliably
               </span>
@@ -54,40 +67,40 @@ export const HeroSection: React.FC = () => {
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link href={ROUTES.SERVICES}>
+            <div className="flex flex-col sm:flex-row gap-4 pt-4 flex-wrap">
+              <Link href={ROUTES.SERVICES} className="flex-1 min-w-[160px] sm:flex-none">
                 <Button 
                   variant="primary" 
                   size="lg"
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto text-sm sm:text-base px-4 sm:px-6 py-3"
                   rightIcon={
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   }
                 >
-                  Find a Professional
+                  Find a Service Pro
                 </Button>
               </Link>
 
-              <Link href={ROUTES.SIGNUP}>
+              <Link href={ROUTES.SIGNUP} className="flex-1 min-w-[160px] sm:flex-none">
                 <Button 
                   variant="tertiary" 
                   size="lg"
                   className="w-full sm:w-auto"
                   rightIcon={
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
                   }
                 >
-                  Become a Professional
+                  Join as Service Pro
                 </Button>
               </Link>
             </div>
 
             {/* Trust Indicators */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20">
+            {/* <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20">
               <div>
                 <div className="text-2xl lg:text-3xl font-bold text-secondary">10,000+</div>
                 <div className="text-sm text-white/70 mt-1">Active Professionals</div>
@@ -100,8 +113,8 @@ export const HeroSection: React.FC = () => {
                 <div className="text-2xl lg:text-3xl font-bold text-secondary">4.8★</div>
                 <div className="text-sm text-white/70 mt-1">Average Rating</div>
               </div>
-            </div>
-          </div>
+            </div> */}
+          </div> 
 
           {/* Right Content - Hero Image with Floating Animation */}
           <div className="hidden lg:block relative">
