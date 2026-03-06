@@ -45,13 +45,13 @@ export const CategoriesSection: React.FC = () => {
 
   if (isLoading) {
     return (
-      <section className="py-16 md:py-20 lg:py-24 bg-primary">
+      <section className="py-12 md:py-16 lg:py-20 bg-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4">
+            <h2 className="text-2xl lg:text-4xl font-bold text-white mb-4">
               Explore Categories
             </h2>
-            <p className="text-lg text-white/80">
+            <p className="text-sm lg:text-lg text-white/80">
               Browse through our wide range of service categories and find the perfect professional for your needs.
             </p>
           </div>
@@ -81,20 +81,20 @@ export const CategoriesSection: React.FC = () => {
   }
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 bg-primary">
+    <section className="py-12 md:py-16 lg:py-20 bg-primary">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-3xl lg:text-5xl font-bold text-white mb-4">
+          <h2 className="text-2xl lg:text-4xl font-bold text-white mb-4">
             Explore Categories
           </h2>
-          <p className="text-lg text-white/80">
+          <p className="text-sm lg:text-lg text-white/80">
             Browse through our wide range of service categories and find the perfect professional for your needs.
           </p>
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 mb-10">
+        <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 mb-10">
           {categories.map((category) => (
             <Link
               key={category.id}
@@ -106,12 +106,12 @@ export const CategoriesSection: React.FC = () => {
                 className="group h-full relative"
               >
                 {/* Icon */}
-                <div className="text-5xl mb-3 group-hover:scale-110 transition-transform">
+                <div className="text-2xl lg:text-4xl mb-1 lg:mb-3 group-hover:scale-110 transition-transform">
                   {category.icon}
                 </div>
 
                 {/* Category Name */}
-                <CardTitle variant="light" className="mb-1 group-hover:text-secondary transition-colors">
+                <CardTitle variant="light" className="text-xs md:text-md lg:text-lg mb-1 group-hover:text-secondary transition-colors">
                   {category.name}
                 </CardTitle>
 
@@ -137,11 +137,11 @@ export const CategoriesSection: React.FC = () => {
         </div>
 
         {/* Browse All Button */}
-        <div className="text-center">
+        <div className="text-center text-xs md:text-md lg:text-lg">
           <Link href={`${ROUTES.SERVICES}?tab=categories`}>
             <Button 
               variant="primary" 
-              size="lg"
+              size="md"
               rightIcon={
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
