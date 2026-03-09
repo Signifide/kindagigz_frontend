@@ -98,8 +98,9 @@ export const ExploreServicesSection: React.FC = () => {
             <Button 
               variant="primary" 
               size="lg"
+              className="text-sm md:text-lg"
               rightIcon={
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 md:w-3 h-3 lg:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               }
