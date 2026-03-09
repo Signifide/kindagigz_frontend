@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils/cn';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  variant?: 'default' | 'elevated' | 'outlined' | 'flat' | 'gray' | 'purple-border';
+  variant?: 'default' | 'elevated' | 'outlined' | 'flat' | 'gray' | 'purple-border' | 'faded-primary' | 'faded-secondary';
   padding?: 'none' | 'sm' | 'md' | 'lg';
   hoverable?: boolean;
 }
@@ -23,17 +23,14 @@ export const Card: React.FC<CardProps> = ({
   const baseStyles = 'rounded-xl transition-all duration-600';
   
   const variants = {
-    // Original variants
     default: 'bg-card border-2 border-card-border',
     elevated: 'bg-card shadow-lg border border-card-border/50',
     outlined: 'bg-card border-2 border-primary/20',
     flat: 'bg-card border-none',
-    
-    // NEW: Gray background (#D9D9D9)
     gray: 'bg-[#D9D9D9] border-2 border-transparent',
-    
-    // NEW: Purple with yellow border (#4F4F7C with #FBD430 border)
     'purple-border': 'bg-[#4F4F7C] border-2 border-secondary',
+    'faded-primary': 'bg-primary/7 border border-primary/15',
+    'faded-secondary': 'bg-secondary/5 border border-primary/15',
   };
   
   const paddings = {
