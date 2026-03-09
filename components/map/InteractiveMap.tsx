@@ -3,33 +3,42 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useGooglePlaces } from '@/lib/hooks/useGooglePlaces';
 
-interface MapMarker {
+export interface MapMarker {
   id: number | string;
   lat: number;
   lng: number;
-  icon?: string;
+  icon?: string | null;
   color?: string;
+  title?: string;
   data: any;
 }
 
 interface InteractiveMapProps {
   markers: MapMarker[];
   center?: { lat: number; lng: number };
+  zoom?: number;
+  height?: string;
   onMarkerClick: (marker: MapMarker) => void;
   selectedId?: number | string | null;
   renderInfoWindow?: (marker: MapMarker) => React.ReactNode;
   onCloseInfoWindow?: () => void;
-  height?: string;
+  className?: string;
+  defaultMarkerIcon?: string;
+  markerSize?: number;
 }
 
 export const InteractiveMap: React.FC<InteractiveMapProps> = ({
   markers,
   center,
+  zoom = 13,
+  height = '500px',
   onMarkerClick,
   selectedId,
   renderInfoWindow,
   onCloseInfoWindow,
-  height = "500px"
+  className = '',
+  defaultMarkerIcon,
+  markerSize = 42,
 }) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const googleMap = useRef<google.maps.Map | null>(null);
@@ -47,7 +56,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
       
       googleMap.current = new google.maps.Map(mapRef.current, {
         center: defaultCenter,
-        zoom: 13,
+        zoom,
         disableDefaultUI: false,
         clickableIcons: false,
         mapTypeControl: false,
