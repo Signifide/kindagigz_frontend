@@ -56,7 +56,7 @@ kindagigz/
 │   │   ├── HeroSection.tsx
 │   │   ├── WhyKindaGigz.tsx
 │   │   ├── CategoriesSection.tsx
-│   │   ├── ServicesSection.tsx
+│   │   ├── ExploreServicesSection.tsx
 │   │   ├── LiveMapSection.tsx
 │   │   └── CTASection.tsx
 │   │   │

@@ -8,7 +8,7 @@ import { ServiceProviderCard } from '../services/ServiceProviderCard';
 import { professionalService } from '@/lib/services/professionalService';
 import type { Professional } from '@/types/auth';
 
-export const ProfessionalsSection: React.FC = () => {
+export const ExploreServicesSection: React.FC = () => {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
