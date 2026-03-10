@@ -15,10 +15,10 @@ export default function SignupPage() {
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl">
           {/* Header */}
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-primary mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-primary mb-2">
               Create Account
             </h1>
-            <p className="text-gray-600">
+            <p className="text-sm md:text-md text-gray-600">
               Join thousands of professionals and clients on KindaGigz
             </p>
           </div>
@@ -28,7 +28,7 @@ export default function SignupPage() {
 
           {/* Login Link */}
           <div className="mt-6 text-center">
-            <p className="text-gray-600">
+            <p className="text-sm md:text-md text-gray-600">
               Already have an account?{' '}
               <Link href={ROUTES.LOGIN} className="font-semibold text-primary hover:text-primary/80">
                 Log in

@@ -226,9 +226,6 @@ export function SignupForm() {
         basicData={formData}
         onBack={() => setStep(1)}
         onComplete={(ServiceProviderData) => {
-          // Here you would merge professional data with basic data
-          // and call registerUser with complete data
-          console.log('Professional data:', ServiceProviderData);
           registerUser(ServiceProviderData);
         }}
       />
@@ -258,7 +255,7 @@ export function SignupForm() {
             onChange={handleChange}
             required
             minLength={2}
-            className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+            className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
             placeholder="John"
           />
           {getErrorMessage('first_name') && (
@@ -277,7 +274,7 @@ export function SignupForm() {
             onChange={handleChange}
             required
             minLength={2}
-            className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+            className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
             placeholder="Doe"
           />
           {getErrorMessage('last_name') && (
@@ -297,7 +294,7 @@ export function SignupForm() {
           value={formData.email}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
           placeholder="john@example.com"
         />
         {getErrorMessage('email') && (
@@ -316,7 +313,7 @@ export function SignupForm() {
           value={formData.phone}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
           placeholder="+254 712 345 678"
         />
         {getErrorMessage('phone') && (
@@ -336,7 +333,7 @@ export function SignupForm() {
           onChange={handleChange}
           required
           minLength={8}
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
           placeholder="Enter password"
         />
         <p className="mt-1 text-xs text-gray-500">
@@ -358,7 +355,7 @@ export function SignupForm() {
           value={formData.password_confirm}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
           placeholder="Confirm password"
         />
         {getErrorMessage('password_confirm') && (
@@ -371,7 +368,7 @@ export function SignupForm() {
         <label className="block text-sm font-semibold text-primary mb-3">
           I am signing up as a:
         </label>
-        <div className="space-y-3">
+        <div className="text-sm md:text-md space-y-3">
           {/* Client Checkbox */}
           <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all hover:border-primary/50 has-checked:border-primary has-checked:bg-primary/5">
             <input
@@ -445,7 +442,7 @@ export function SignupForm() {
         type="submit"
         variant="primary"
         size="lg"
-        className="w-full"
+        className="w-full text-sm md:text-md "
         disabled={isLoading}
       >
         {isLoading

@@ -321,7 +321,7 @@ export function ServiceProOnboardingForm({
           value={formData.business_name}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
           placeholder="e.g., John's Plumbing Services"
         />
         {errors.business_name && (
@@ -341,7 +341,7 @@ export function ServiceProOnboardingForm({
           value={formData.tagline}
           onChange={handleChange}
           maxLength={100}
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
           placeholder="e.g., Quality plumbing services you can trust"
         />
         <p className="mt-1 text-xs text-gray-500">
@@ -355,11 +355,11 @@ export function ServiceProOnboardingForm({
           Service Category <span className="text-red-500">*</span>
         </label>
         {isLoadingCategories ? (
-          <div className="w-full px-4 py-3 rounded-lg border-2 border-card-border bg-gray-50 animate-pulse">
+          <div className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border bg-gray-50 animate-pulse">
             <p className="text-gray-400">Loading categories...</p>
           </div>
         ) : !Array.isArray(categories) || categories.length === 0 ? (
-          <div className="w-full px-4 py-3 rounded-lg border-2 border-red-200 bg-red-50">
+          <div className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-red-200 bg-red-50">
             <p className="text-red-600">Failed to load categories. Please refresh the page.</p>
           </div>
         ) : (
@@ -369,7 +369,7 @@ export function ServiceProOnboardingForm({
             value={formData.category_id}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors bg-white"
+            className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors bg-white"
           >
             <option value={0}>Select a category</option>
             {categories.map(category => (
@@ -397,7 +397,7 @@ export function ServiceProOnboardingForm({
           </label>
 
           {isLoadingServices ? (
-            <div className="w-full px-4 py-3 rounded-lg border-2 border-card-border bg-gray-50 animate-pulse">
+            <div className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border bg-gray-50 animate-pulse">
               <p className="text-gray-400">Loading services...</p>
             </div>
           ) : !Array.isArray(filteredServices) || filteredServices.length === 0 ? (
@@ -466,7 +466,7 @@ export function ServiceProOnboardingForm({
           required
           rows={4}
           maxLength={500}
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors resize-none"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors resize-none"
           placeholder="Describe your business, experience, and what makes you stand out..."
         />
         <p className="mt-1 text-xs text-gray-500">
@@ -489,7 +489,7 @@ export function ServiceProOnboardingForm({
           value={formData.address}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
           placeholder="Street address, building, area"
         />
         {errors.address && (
@@ -533,7 +533,7 @@ export function ServiceProOnboardingForm({
           name="service_radius_km"
           value={formData.service_radius_km}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors bg-white"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors bg-white"
         >
           <option value={5}>5 km</option>
           <option value={10}>10 km</option>
@@ -649,7 +649,7 @@ export function ServiceProOnboardingForm({
           type="button"
           variant="outline"
           size="lg"
-          className="flex-1"
+          className="text-sm md:text-md flex-1 px-1 py-3"
           onClick={onBack}
         >
           Back
@@ -658,7 +658,7 @@ export function ServiceProOnboardingForm({
           type="submit"
           variant="primary"
           size="lg"
-          className="flex-1"
+          className="flex-1 text-sm md:text-md px-6 py-3"
         >
           Create Account
         </Button>
