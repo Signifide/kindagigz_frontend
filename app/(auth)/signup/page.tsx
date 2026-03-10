@@ -13,16 +13,6 @@ export default function SignupPage() {
       
       <main className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl">
-          {/* Header */}
-          <div className="text-center mb-6">
-            <h1 className="text-2xl md:text-3xl font-bold text-primary mb-2">
-              Create Account
-            </h1>
-            <p className="text-sm md:text-md text-gray-600">
-              Join thousands of professionals and clients on KindaGigz
-            </p>
-          </div>
-
           {/* Signup Form Component */}
           <SignupForm />
 

@@ -303,7 +303,7 @@ export function ServiceProOnboardingForm({
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Header */}
       <div className="text-center">
-        <h3 className="text-2xl font-bold text-primary">Professional Details</h3>
+        <h3 className="text-2xl md:text-3xl font-bold text-primary">Professional Details</h3>
         <p className="text-sm text-gray-600 mt-1">
           Tell us about your business and services
         </p>
