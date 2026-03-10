@@ -30,10 +30,8 @@ export function LoginForm() {
     try {
       const response = await authService.login(formData);
 
-      // Update auth context
       setUser(response.user);
 
-      // Dismiss loading toast and show success
       toast.dismiss(loadingToast);
       toast.success(`Welcome back, ${response.user.first_name}!`, {
         duration: 3000,
@@ -41,7 +39,6 @@ export function LoginForm() {
 
       // Small delay for user to see the success message
       setTimeout(() => {
-        // Redirect based on user role
         if (response.user.role === 'professional') {
           router.push(ROUTES.DASHBOARD);
         } else {
@@ -55,14 +52,12 @@ export function LoginForm() {
 
       console.log('Caught error in LoginForm:', apiError);
 
-      // Extract and display the specific error message
       if (apiError.message) {
         setError(apiError.message);
         toast.error(apiError.message, {
           duration: 5000,
         });
       } else {
-        // Fallback to generic message only if no specific message
         const errorMessage = 'Login failed. Please check your credentials and try again.';
         setError(errorMessage);
         toast.error(errorMessage, {
@@ -80,7 +75,6 @@ export function LoginForm() {
       [e.target.name]: e.target.value
     }));
 
-    // Clear error when user starts typing
     if (error) {
       setError('');
     }
@@ -88,7 +82,6 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Error Message */}
       {error && (
         <div className="p-4 rounded-lg bg-red-50 border border-red-200">
           <p className="text-sm text-red-600">{error}</p>
@@ -107,7 +100,7 @@ export function LoginForm() {
           value={formData.email}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
           placeholder="your@email.com"
           disabled={isLoading}
         />
@@ -130,7 +123,7 @@ export function LoginForm() {
           value={formData.password}
           onChange={handleChange}
           required
-          className="w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
+          className="w-full text-sm md:text-md px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
           placeholder="••••••••"
           disabled={isLoading}
         />
@@ -153,7 +146,7 @@ export function LoginForm() {
         type="submit"
         variant="primary"
         size="lg"
-        className="w-full"
+        className="w-full text-sm md:text-md"
         disabled={isLoading}
       >
         {isLoading ? 'Logging in...' : 'Log In'}

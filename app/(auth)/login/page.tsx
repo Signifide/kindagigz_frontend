@@ -15,10 +15,10 @@ export default function LoginPage() {
         <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xl">
           {/* Header */}
           <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold text-primary mb-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-primary mb-2">
               Welcome Back
             </h1>
-            <p className="text-gray-600">
+            <p className="text-sm md:text-md text-gray-600">
               Log in to your KindaGigz account
             </p>
           </div>
@@ -27,14 +27,14 @@ export default function LoginPage() {
           <LoginForm />
 
           {/* Divider */}
-          <div className="my-6 flex items-center">
+          {/* <div className="my-6 flex items-center">
             <div className="flex-1 border-t border-gray-300"></div>
             <span className="px-4 text-sm text-gray-500">OR</span>
             <div className="flex-1 border-t border-gray-300"></div>
-          </div>
+          </div> */}
 
           {/* Social Login (Future) */}
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <button 
               disabled
               className="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-card-border rounded-lg opacity-50 cursor-not-allowed"
@@ -45,13 +45,13 @@ export default function LoginPage() {
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
               </svg>
-              <span className="font-medium text-gray-700">Continue with Google (Coming Soon)</span>
+              <span className="text-sm md:text-md font-medium text-gray-700">Continue with Google (Coming Soon)</span>
             </button>
-          </div>
+          </div> */}
 
           {/* Sign Up Link */}
           <div className="mt-6 text-center">
-            <p className="text-gray-600">
+            <p className="text-sm md:text-md text-gray-600">
               Don't have an account?{' '}
               <Link href={ROUTES.SIGNUP} className="font-semibold text-primary hover:text-primary/80">
                 Sign up
