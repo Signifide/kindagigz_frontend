@@ -58,8 +58,8 @@ export interface Professional {
   logo: string | null;
   location_name: string;
   address: string;
-  latitude: string | null;
-  longitude: string | null;
+  latitude: string;
+  longitude: string;
   service_radius_km: number;
   location: Location;
   is_available: boolean;

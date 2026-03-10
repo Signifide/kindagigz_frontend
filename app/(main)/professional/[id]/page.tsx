@@ -10,7 +10,7 @@ export default async function ProfessionalPage({
 }: {
     params: Promise<{ id: string }>
 }) {
-    const { id } = await params; // Unwrapping the promise
+    const { id } = await params;
 
     // Convert string to number for API call
     const professionalId = parseInt(id, 10);
@@ -29,14 +29,10 @@ export default async function ProfessionalPage({
     }
 
     return (
-        <div className="min-h-screen bg-primary pb-12 overflow-x-hidden w-full">
+        <div className="min-h-screen bg-primary md:pb-8 overflow-x-hidden w-full">
             <Navbar variant="transparent" />
-            {/* This is the boundary. We pass DATA (professional) 
-         but NOT functions/event-handlers. 
-      */}
             <ProfessionalHeroClient professional={professional} />
-
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 md:mt-12">
                 <ProfessionalSimilarServices
                     categoryId={professional.category.id}
                     currentProfessionalId={professional.id}
