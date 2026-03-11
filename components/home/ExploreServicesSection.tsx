@@ -7,6 +7,7 @@ import { ROUTES } from '@/lib/constants/routes';
 import { ServiceProviderCard } from '../services/ServiceProviderCard';
 import { professionalService } from '@/lib/services/professionalService';
 import type { Professional } from '@/types/auth';
+import toast from 'react-hot-toast';
 
 export const ExploreServicesSection: React.FC = () => {
   const [professionals, setProfessionals] = useState<Professional[]>([]);
@@ -16,11 +17,11 @@ export const ExploreServicesSection: React.FC = () => {
     const fetchProfessionals = async () => {
       try {
         setIsLoading(true);
-        // Get featured professionals (top 6)
         const featured = await professionalService.getFeaturedProfessionals(6);
         setProfessionals(featured);
       } catch (error) {
-        console.error('Error fetching professionals:', error);
+        // console.error('Error fetching professionals:', error);
+        toast.error('Error fetching professionals in Explore Section');
       } finally {
         setIsLoading(false);
       }

@@ -28,7 +28,7 @@ export const ProfessionalSimilarServices: React.FC<ProfessionalSimilarServicesPr
         );
         setSimilarProfessionals(similar);
       } catch (error) {
-        console.error('Error fetching similar professionals:', error);
+        // console.error('Error fetching similar professionals:', error);
       } finally {
         setIsLoading(false);
       }

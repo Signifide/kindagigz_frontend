@@ -79,7 +79,7 @@ export const Navbar: React.FC<NavbarProps> = ({ variant = 'default' }) => {
       }, 300);
 
     } catch (error) {
-      console.error('Logout error:', error);
+      // console.error('Logout error:', error);
       toast.dismiss(loadingToast);
       toast.error('Logout failed, but clearing session anyway');
       contextLogout();

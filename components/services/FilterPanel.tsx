@@ -98,7 +98,6 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
             break;
         }
         toast.error(message);
-        console.error("Geolocation Error:", error);
       },
       { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
     );

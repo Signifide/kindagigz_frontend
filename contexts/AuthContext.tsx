@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           authService.setUser(freshUser);
         } catch (error) {
           // If fails (401 Unauthorized), the cookie is gone/invalid
-          console.error('Session invalid, logging out');
+          // console.error('Session invalid, logging out');
           authService.clearUser();
           setUser(null);
         }

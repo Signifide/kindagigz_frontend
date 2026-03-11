@@ -198,7 +198,8 @@ async function handleErrorResponse(
 
     case 500: // Internal Server Error
       errorMessage = customMessages[500] || 'Server error. Our team has been notified.';
-      console.error(`[${correlationId}] Server error:`, errorData);
+      // console.error(`[${correlationId}] Server error:`, errorData);
+      toastDuration = 7000;
       break;
 
     case 503: // Service Unavailable

@@ -77,7 +77,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
       }, 300);
 
     } catch (error) {
-      console.error('Logout error:', error);
+      // console.error('Logout error:', error);
       toast.dismiss(loadingToast);
       toast.error('Logout failed, but clearing session anyway');
 

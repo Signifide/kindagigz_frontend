@@ -62,7 +62,7 @@ class DashboardService {
       const data = await response.json();
       return data.results || data;
     } catch (error) {
-      console.error('Error fetching bookings:', error);
+      // console.error('Error fetching bookings:', error);
       return [];
     }
   }
@@ -81,7 +81,7 @@ class DashboardService {
       const data = await response.json();
       return data.results || data;
     } catch (error) {
-      console.error('Error fetching messages:', error);
+      // console.error('Error fetching messages:', error);
       return [];
     }
   }
@@ -100,7 +100,7 @@ class DashboardService {
       const data = await response.json();
       return data.results || data;
     } catch (error) {
-      console.error('Error fetching clients:', error);
+      // console.error('Error fetching clients:', error);
       return [];
     }
   }
@@ -119,7 +119,7 @@ class DashboardService {
       const data = await response.json();
       return data.results || data;
     } catch (error) {
-      console.error('Error fetching reviews:', error);
+      // console.error('Error fetching reviews:', error);
       return [];
     }
   }
@@ -138,7 +138,7 @@ class DashboardService {
       const data = await response.json();
       return data.results || data;
     } catch (error) {
-      console.error('Error fetching payments:', error);
+      // console.error('Error fetching payments:', error);
       return [];
     }
   }
@@ -156,7 +156,7 @@ class DashboardService {
       if (!response.ok) return null;
       return await response.json();
     } catch (error) {
-      console.error('Error fetching analytics:', error);
+      // console.error('Error fetching analytics:', error);
       return null;
     }
   }

@@ -43,9 +43,6 @@ export const Reviews: React.FC<ReviewsProps> = ({ professional }) => {
 
   const handleReply = (reviewId: number) => {
     if (!replyText.trim()) return;
-    
-    // TODO: Implement reply submission
-    console.log('Replying to review:', reviewId, replyText);
     setReplyingTo(null);
     setReplyText('');
   };

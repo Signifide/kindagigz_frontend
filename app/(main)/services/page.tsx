@@ -9,6 +9,7 @@ import { Professional } from '@/types/auth';
 import { professionalService } from '@/lib/services/professionalService';
 import { getDistanceKm } from '@/lib/utils/location';
 import { cn } from '@/lib/utils/cn';
+import toast from 'react-hot-toast';
 
 export default function ServicesPage() {
   const [showMapView, setShowMapView] = useState(false);
@@ -36,7 +37,8 @@ export default function ServicesPage() {
         setProfessionals(data);
         setFilteredProfessionals(data);
       } catch (error) {
-        console.error('Error fetching professionals:', error);
+        // console.error('Error fetching professionals:', error);
+        toast.error('Error fetching available service providers');
       } finally {
         setIsLoading(false);
       }

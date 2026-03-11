@@ -104,12 +104,12 @@ class AuthService {
           customErrorMessages: {
             401: 'Session already expired.',
           },
-          showToast: false, // Don't show error toast for logout
-          throwOnError: false, // Don't throw error for logout
+          showToast: false, 
+          throwOnError: false,
         }
       );
     } catch (error) {
-      console.error('Logout error:', error);
+      // console.error('Logout error:', error);
     } finally {
       this.clearUser();
     }

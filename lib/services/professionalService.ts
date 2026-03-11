@@ -24,9 +24,8 @@ class ProfessionalService {
         API_ENDPOINTS.PROFESSIONALS.LIST,
         {
           params: params as Record<string, string>,
-          // Next.js specific caching
           next: { revalidate: 60 }, 
-          showToast: false, // Don't annoy users with toasts for background list loads
+          showToast: false, 
           customErrorMessages: {
             503: 'Professional listing is temporarily offline.',
           },
@@ -41,7 +40,7 @@ class ProfessionalService {
 
       return professionals;
     } catch (error) {
-      console.error('Error fetching professionals:', error);
+      // console.error('Error fetching professionals:', error);
       return [];
     }
   }
@@ -63,14 +62,14 @@ class ProfessionalService {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error('Professional not found:', errorData);
+        // console.error('Professional not found:', errorData);
         // throw new Error('Professional not found');
         return null;
       }
 
       return await response.json();
     } catch (error) {
-      console.error('Error fetching professiona by ID:', error);
+      // console.error('Error fetching professiona by ID:', error);
       return null;
     }
   }
@@ -93,7 +92,7 @@ class ProfessionalService {
         )
         .slice(0, limit);
     } catch (error) {
-      console.error('Error fetching similar professionals:', error);
+      // console.error('Error fetching similar professionals:', error);
       return [];
     }
   }
@@ -114,7 +113,7 @@ class ProfessionalService {
       
       return sorted.slice(0, limit);
     } catch (error) {
-      console.error('Error fetching featured professionals:', error);
+      // console.error('Error fetching featured professionals:', error);
       return [];
     }
   }
@@ -134,7 +133,7 @@ class ProfessionalService {
         prof.about.toLowerCase().includes(lowerQuery)
       );
     } catch (error) {
-      console.error('Error searching professionals:', error);
+      // console.error('Error searching professionals:', error);
       return [];
     }
   }
@@ -169,7 +168,7 @@ class ProfessionalService {
         byCity,
       };
     } catch (error) {
-      console.error('Error getting professional stats:', error);
+      // console.error('Error getting professional stats:', error);
       return { total: 0, byCategory: {}, byCity: {} };
     }
   }

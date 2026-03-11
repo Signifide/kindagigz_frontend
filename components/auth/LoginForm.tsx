@@ -50,8 +50,6 @@ export function LoginForm() {
       toast.dismiss(loadingToast);
       const apiError = err as ApiError;
 
-      console.log('Caught error in LoginForm:', apiError);
-
       if (apiError.message) {
         setError(apiError.message);
         toast.error(apiError.message, {

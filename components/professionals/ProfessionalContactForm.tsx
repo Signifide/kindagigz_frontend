@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Professional } from '@/types/auth';
+import toast from 'react-hot-toast';
 
 interface ProfessionalContactFormProps {
   professional: Professional;
@@ -27,19 +28,11 @@ export const ProfessionalContactForm: React.FC<ProfessionalContactFormProps> = (
     e.preventDefault();
     setIsSubmitting(true);
 
-    // TODO: Implement actual contact/booking logic
-    console.log('Contact form submitted:', {
-      professional: professional.id,
-      ...formData,
-    });
-
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    alert('Message sent! The professional will contact you soon.');
+    toast.success('Please be patient as we work on the message feature');
     setIsSubmitting(false);
     
-    // Reset form
     setFormData({
       name: '',
       email: '',

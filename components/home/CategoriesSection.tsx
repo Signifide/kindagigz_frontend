@@ -8,6 +8,7 @@ import { ROUTES } from '@/lib/constants/routes';
 import { categoryService } from '@/lib/services/categoryService';
 import { professionalService } from '@/lib/services/professionalService';
 import type { Category } from '@/types';
+import toast from 'react-hot-toast';
 
 export const CategoriesSection: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -21,11 +22,9 @@ export const CategoriesSection: React.FC = () => {
         
         // Fetch categories
         const categoriesData = await categoryService.getCategories();
-        
-        // Fetch professional stats to get accurate counts per category
+
         const profStats = await professionalService.getProfessionalStats();
         
-        // Map category names to IDs for counts
         const countMap: Record<number, number> = {};
         categoriesData.forEach(cat => {
           countMap[cat.id] = profStats.byCategory[cat.name] || 0;
@@ -34,7 +33,8 @@ export const CategoriesSection: React.FC = () => {
         setCategoryProfCount(countMap);
         setCategories(categoriesData.slice(0, 8)); // Show first 8
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        // console.error('Error fetching categories:', error);
+        toast.error('Error fetching categories')
       } finally {
         setIsLoading(false);
       }

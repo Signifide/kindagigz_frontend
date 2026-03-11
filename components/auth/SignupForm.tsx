@@ -160,7 +160,6 @@ export function SignupForm() {
 
     } catch (err: any) {
       toast.dismiss(loadingToast);
-      console.log('Caught error in SignupForm:', err);
 
       const responseData = err?.response?.data;
 
@@ -219,7 +218,7 @@ export function SignupForm() {
     return errors[field]?.[0];
   };
 
-  // If on step 2 (professional onboarding), show that component
+  // If on step 2 (professional onboarding), show component
   if (step === 2 && formData.role === 'professional') {
     return (
       <ServiceProOnboardingForm

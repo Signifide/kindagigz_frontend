@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Professional } from '@/types/auth';
 import { ROUTES } from '@/lib/constants/routes';
 import { cn } from '@/lib/utils/cn';
+import toast from 'react-hot-toast';
 
 interface ServiceProviderCardProps {
   professional: Professional;
@@ -31,7 +32,7 @@ export const ServiceProviderCard: React.FC<ServiceProviderCardProps> = ({
         hoverable
         className={cn('overflow-hidden flex flex-col h-full border-gray-200', className)}
       >
-        {/* 1. Banner Image */}
+        {/* Banner Image */}
         <div className="relative h-22 md:h-27 lg:h-32 bg-slate-500 overflow-hidden">
           <Image
             src={banner || '/placeholder-banner.jpg'}
@@ -41,7 +42,7 @@ export const ServiceProviderCard: React.FC<ServiceProviderCardProps> = ({
           />
         </div>
 
-        {/* 2. Overlapping Logo */}
+        {/* Overlapping Logo */}
         <div className="relative px-4">
           <div className="absolute -top-8 md:-top-9 lg:-top-10 left-2 md:left-3 lg:left-4 w-14 md:w-17 lg:w-20 h-14 md:h-17 lg:h-20 rounded-full border bg-slate-500 overflow-hidden shadow-sm">
             <Image
@@ -53,7 +54,7 @@ export const ServiceProviderCard: React.FC<ServiceProviderCardProps> = ({
           </div>
         </div>
 
-        {/* 3. Content Section */}
+        {/* Content Section */}
         <div className="pt-8 md:pt-10 lg:pt-12 p-2 md:p-3 lg:p-4 flex flex-col flex-1">
           <h3 className="text-sm md:text-md lg:text-xl font-bold text-black mb-1">
             {businessName}
@@ -62,7 +63,7 @@ export const ServiceProviderCard: React.FC<ServiceProviderCardProps> = ({
             {description}
           </p>
 
-          {/* 4. Footer (Category & Bookmark) */}
+          {/* Footer (Category & Bookmark) */}
           <div className="mt-auto flex items-center justify-between">
             <div className="flex items-center gap-2">
               {categoryIcon && (
@@ -97,7 +98,7 @@ export const ServiceProviderCard: React.FC<ServiceProviderCardProps> = ({
             <button
               onClick={(e) => {
                 e.preventDefault();
-                console.log('Bookmarked:', professional.id);
+                toast.dismiss('Working on bookmark feature')
               }}
               className="text-gray-800 hover:text-primary transition-colors"
             >

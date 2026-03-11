@@ -21,14 +21,13 @@ export default function DashboardPage() {
     if (isLoading) return;
 
     if (!isAuthenticated) {
-      console.log('Not authenticated, redirecting to login');
+      toast.error('Not authenticated, redirecting to login');
       router.push(ROUTES.LOGIN);
       return;
     }
 
     if (user?.role !== 'professional') {
-      console.log('Not a professional, redirecting to home');
-      toast.error("Not a professional, redirecting to home")
+      toast.error("Not a professional, redirecting to home page")
       router.push(ROUTES.HOME);
       return;
     }
@@ -37,10 +36,6 @@ export default function DashboardPage() {
       try {
         setLoading(true);
         setError(null);
-
-        console.log('Fetching professional profile from:', API_ENDPOINTS.PROFESSIONALS.PROFILE);
-        
-        console.log('Document cookies:', document.cookie);
 
         const response = await fetch(API_ENDPOINTS.PROFESSIONALS.PROFILE, {
           method: 'GET',
@@ -52,7 +47,6 @@ export default function DashboardPage() {
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
-          console.error('Failed to fetch professional profile:', errorData);
           
           if (response.status === 401) {
             router.push(ROUTES.LOGIN);
@@ -60,20 +54,17 @@ export default function DashboardPage() {
           }
           
           if (response.status === 404) {
-            setError('Professional profile not found. Please complete your profile setup.');
+            toast.error('Professional profile not found. Please complete your profile setup.');
             return;
           }
           
-          throw new Error('Failed to fetch professional profile');
+          throw new Error('Failed to fetch professional profile', errorData);
         }
 
         const prof = await response.json();
-        console.log('Professional profile fetched:', prof);
-
         setProfessional(prof);
       } catch (error) {
-        console.error('Error fetching professional:', error);
-        setError('Failed to load dashboard. Please try again.');
+        // console.error('Error fetching professional:', error);
         toast.error('Failed to load dashboard. Please try again.');
         router.push(ROUTES.HOME);
       } finally {

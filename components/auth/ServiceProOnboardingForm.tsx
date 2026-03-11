@@ -9,6 +9,7 @@ import { MultiSelect } from '../ui/MultiSelect';
 import type { RegisterData, ServiceProOnboardingData } from '@/types/auth';
 import type { PlaceDetails } from '@/lib/hooks/useGooglePlaces';
 import type { Category, Service } from '@/types';
+import toast from 'react-hot-toast';
 
 interface ServiceProOnboardingFormProps {
   basicData: RegisterData;
@@ -55,13 +56,13 @@ export function ServiceProOnboardingForm({
     const fetchData = async () => {
       try {
         setIsLoadingCategories(true);
-        const categoriesData = await categoryService.getCategories();
-        console.log('Fetched categories:', categoriesData); 
+        const categoriesData = await categoryService.getCategories(); 
         
         if (Array.isArray(categoriesData)) {
           setCategories(categoriesData);
         } else {
-          console.error('Categories data is not an array:', categoriesData);
+          // console.error('Categories data is not an array:', categoriesData);
+          toast.error('Choose a valid Category')
           setCategories([]);
         }
         setIsLoadingCategories(false);
@@ -69,17 +70,17 @@ export function ServiceProOnboardingForm({
         // Fetch ALL services at once
         setIsLoadingServices(true);
         const servicesData = await categoryService.getServices();
-        console.log('Fetched services:', servicesData); // Debug log
         
         if (Array.isArray(servicesData)) {
           setAllServices(servicesData);
         } else {
-          console.error('Services data is not an array:', servicesData);
+          // console.error('Services data is not an array:', servicesData);
+          toast.error('Choose a valid Service')
           setAllServices([]);
         }
         setIsLoadingServices(false);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        // console.error('Error fetching data:', error);
         setCategories([]);
         setAllServices([]); 
         setIsLoadingCategories(false);

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { ROUTES } from '@/lib/constants/routes';
 import { Professional } from '@/types/auth';
 import { professionalService } from '@/lib/services/professionalService';
+import toast from 'react-hot-toast';
   
 export const LiveMapSection: React.FC = () => {
   // Show only first 8 categories on homepage
@@ -28,7 +29,8 @@ export const LiveMapSection: React.FC = () => {
         setProfessionals(data);
         setFilteredProfessionals(data);
       } catch (error) {
-        console.error('Error fetching professionals:', error);
+        // console.error('Error fetching professionals:', error);
+        toast.error('Error fetching professionals for live map');
       } finally {
         setIsLoading(false);
       }

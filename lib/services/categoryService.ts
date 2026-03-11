@@ -31,7 +31,7 @@ class CategoryService {
       // Extract the results array from paginated response
       return data.results || [];
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      // console.error('Error fetching categories:', error);
       throw error;
     }
   }
@@ -61,7 +61,7 @@ class CategoryService {
       // Extract the results array from paginated response
       return data.results || [];
     } catch (error) {
-      console.error('Error fetching services:', error);
+      // console.error('Error fetching services:', error);
       throw error;
     }
   }
@@ -91,7 +91,7 @@ class CategoryService {
         allResults.push(...data.results);
         nextUrl = data.next;
       } catch (error) {
-        console.error('Error fetching paginated data:', error);
+        // console.error('Error fetching paginated data:', error);
         break;
       }
     }
@@ -128,7 +128,7 @@ class CategoryService {
         services: data.services || [],
       };
     } catch (error) {
-      console.error('Error fetching category with services:', error);
+      // console.error('Error fetching category with services:', error);
       throw error;
     }
   }
