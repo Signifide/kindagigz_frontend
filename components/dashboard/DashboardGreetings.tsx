@@ -41,10 +41,10 @@ export const DashboardGreeting: React.FC<DashboardGreetingProps> = ({ profession
   }, [professional]);
 
   return (
-    <div className="bg-linear-to-r from-primary to-primary/80 text-white py-8 px-6 rounded-2xl mb-8 shadow-lg">
+    <div className="bg-linear-to-r from-primary to-primary/80 text-white py-8 px-6 rounded-2xl mb-2 shadow-lg">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-2">{greeting} 👋</h1>
-        <p className="text-white/90 text-lg">{message}</p>
+        <h1 className="text-lg md:text-2xl lg:text-3xl font-bold mb-2">{greeting} 👋</h1>
+        <p className="text-white/90 text-sm md:text-md lg:text-lg">{message}</p>
         
         {/* Quick Stats */}
         {/* <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
