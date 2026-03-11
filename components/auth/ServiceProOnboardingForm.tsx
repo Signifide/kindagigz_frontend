@@ -26,7 +26,6 @@ export function ServiceProOnboardingForm({
   onBack,
   onComplete,
 }: ServiceProOnboardingFormProps) {
-  // Form state
   const [formData, setFormData] = useState<ServiceProOnboardingData>({
     business_name: '',
     about: '',
@@ -42,12 +41,9 @@ export function ServiceProOnboardingForm({
     agreeToTerms: false,
   });
 
-  // Data state
   const [categories, setCategories] = useState<Category[]>([]);
   const [allServices, setAllServices] = useState<Service[]>([]);
   const [filteredServices, setFilteredServices] = useState<Service[]>([]);
-  
-  // UI state
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
   const [isLoadingServices, setIsLoadingServices] = useState(true);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -58,10 +54,9 @@ export function ServiceProOnboardingForm({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch categories
         setIsLoadingCategories(true);
         const categoriesData = await categoryService.getCategories();
-        console.log('Fetched categories:', categoriesData); // Debug log
+        console.log('Fetched categories:', categoriesData); 
         
         if (Array.isArray(categoriesData)) {
           setCategories(categoriesData);
@@ -95,14 +90,13 @@ export function ServiceProOnboardingForm({
     fetchData();
   }, []);
 
-  // Filter services when category changes (client-side, instant!)
+  // Filter services when category changes (client-side)
   useEffect(() => {
     if (formData.category_id > 0 && Array.isArray(allServices)) {
       const filtered = allServices.filter(
         service => service.category === formData.category_id
       );
       setFilteredServices(filtered);
-      // Clear selected services when category changes
       setFormData(prev => ({ ...prev, service_ids: [] }));
     } else {
       setFilteredServices([]);
@@ -193,7 +187,6 @@ export function ServiceProOnboardingForm({
       longitude: roundCoord(details.longitude),
     }));
 
-    // Clear location error if one existed
     if (errors.address) {
       setErrors((prev) => ({ ...prev, address: '', latitude: '' }));
     }
@@ -294,7 +287,6 @@ export function ServiceProOnboardingForm({
     }
   };
 
-  // SAFE category lookup with type checking
   const selectedCategory = Array.isArray(categories) 
     ? categories.find(cat => cat.id === formData.category_id) 
     : undefined;
@@ -428,7 +420,7 @@ export function ServiceProOnboardingForm({
             />
           )}
 
-          {/* Show selected services details (optional) */}
+          {/* Show selected services details */}
           {formData.service_ids.length > 0 && (
             <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
               <p className="text-sm font-semibold text-blue-900 mb-2">
@@ -477,27 +469,7 @@ export function ServiceProOnboardingForm({
         )}
       </div>
 
-      {/* Address */}
-      {/* <div>
-        <label htmlFor="address" className="block text-sm font-semibold text-primary mb-2">
-          Business Address <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="text"
-          id="address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          required
-          className="text-sm md:text-md w-full px-4 py-3 rounded-lg border-2 border-card-border focus:border-primary focus:outline-none transition-colors"
-          placeholder="Street address, building, area"
-        />
-        {errors.address && (
-          <p className="mt-1 text-sm text-red-600">{errors.address}</p>
-        )}
-      </div> */}
-
-      {/* LOCATION PICKER */}
+      {/* Address - Location Picker */}
       <div id="address">
         <LocationPicker
           label="Business Location"
@@ -507,20 +479,6 @@ export function ServiceProOnboardingForm({
           placeholder="e.g., Galleria Mall, Ngong Road, ABC Place, Manda Hill…"
           required
         />
-
-        {/* Show resolved coordinates as a subtle confirmation */}
-        {/* {formData.latitude !== null && formData.longitude !== null && (
-          <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
-            <span>📍</span>
-            <span>
-              {formData.location_name && (
-                <strong className="text-gray-700">{formData.location_name}</strong>
-              )}
-              {formData.location_name && ' · '}
-              {formData.latitude.toFixed(5)}, {formData.longitude.toFixed(5)}
-            </span>
-          </div>
-        )} */}
       </div>
 
       {/* Service Radius */}
@@ -629,11 +587,11 @@ export function ServiceProOnboardingForm({
         />
         <label htmlFor="agreeToTerms" className="text-sm text-gray-600">
           I agree to the{' '}
-          <Link href="/terms" className="text-primary hover:underline font-semibold">
+          <Link href="/terms-of-service" className="text-primary hover:underline font-semibold">
             Terms of Service
           </Link>
           {' '}and{' '}
-          <Link href="/privacy" className="text-primary hover:underline font-semibold">
+          <Link href="/privacy-policy" className="text-primary hover:underline font-semibold">
             Privacy Policy
           </Link>
           , and confirm that all information provided is accurate.
