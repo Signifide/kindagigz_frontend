@@ -35,20 +35,20 @@ export const ExploreServicesSection: React.FC = () => {
       <section className="py-16 md:py-20 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl lg:text-5xl font-bold text-primary mb-4">
+            <h2 className="text-2xl lg:text-4xl font-bold text-primary mb-4">
               Featured Professionals
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-sm md:tetx-md lg:text-lg text-gray-600">
               Discover top-rated professionals ready to help you with your needs.
             </p>
           </div>
 
           {/* Loading Skeleton */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             {[...Array(6)].map((_, i) => (
               <div
                 key={i}
-                className="bg-gray-100 rounded-2xl p-6 h-80 animate-pulse"
+                className="bg-gray-200 rounded-2xl p-6 h-80 animate-pulse"
               />
             ))}
           </div>
@@ -61,7 +61,7 @@ export const ExploreServicesSection: React.FC = () => {
     return (
       <section className="py-16 md:py-20 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-5xl font-bold text-primary mb-4">
+          <h2 className="text-2xl lg:text-4xl font-bold text-primary mb-4">
             Featured Professionals
           </h2>
           <p className="text-gray-600">No professionals available yet. Check back soon!</p>

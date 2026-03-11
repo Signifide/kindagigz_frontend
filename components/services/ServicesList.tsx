@@ -27,10 +27,10 @@ export const ServicesList: React.FC<ServicesListProps> = ({
     return (
       <div className={cn(
         "grid gap-6",
-        showMapView ? "grid-cols-1 xl:grid-cols-2" : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
+        showMapView ? "grid-cols-2 xl:grid-cols-2" : "grid-cols-2 md:grid-cols-2 xl:grid-cols-3"
       )}>
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="bg-gray-100 rounded-xl h-80 animate-pulse" />
+          <div key={i} className="bg-gray-200 rounded-xl h-80 animate-pulse" />
         ))}
       </div>
     );

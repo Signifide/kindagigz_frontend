@@ -51,22 +51,17 @@ export default function ServicesPage() {
   useEffect(() => {
     let filtered = [...professionals];
 
-    // 1. Keyword Search (Name or Service)
+    // Keyword Search (Name or Service)
     if (activeFilters.keywords) {
       const query = activeFilters.keywords.toLowerCase().trim();
       
       filtered = filtered.filter(prof => {
-        // Human Name checks (nested in user object)
         const firstName = prof.user?.first_name?.toLowerCase() || '';
         const lastName = prof.user?.last_name?.toLowerCase() || '';
         const fullName = `${firstName} ${lastName}`;
-
-        // Business Info checks
         const bizName = prof.business_name?.toLowerCase() || '';
         const tagline = prof.tagline?.toLowerCase() || '';
         const aboutText = prof.about?.toLowerCase() || '';
-
-        // Services check (matching the name of any service they offer)
         const serviceMatch = prof.services?.some(s => 
           s.name.toLowerCase().includes(query) || 
           s.category_name?.toLowerCase().includes(query)
@@ -82,14 +77,14 @@ export default function ServicesPage() {
       });
     }
 
-    // 2. Category Filter
+    // Category Filter
     if (activeFilters.category) {
       filtered = filtered.filter(prof => 
         prof.category.slug === activeFilters.category
       );
     }
 
-    // 3. Proximity & Location Logic
+    // Proximity & Location Logic
     if (activeFilters.lat && activeFilters.lng) {
       filtered = filtered.filter(prof => {
         if (!prof.latitude || !prof.longitude) return false;
@@ -143,19 +138,18 @@ export default function ServicesPage() {
       </div>
 
       <main className="max-w-full mx-auto px-4 lg:px-8 py-8 pt-4 md:pt-16">
-        <header className="mb-8 hidden lg:block">
+        <header className="mb-8 lg:block">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">Explore Services</h1>
-          <p className="text-white/70 text-sm md:text-lg">
+          {/* <p className="text-white/70 text-sm md:text-lg">
             {isLoading 
               ? 'Loading professionals...' 
               : `Connecting you with ${filteredProfessionals.length} verified experts.`
             }
-          </p>
+          </p> */}
         </header>
 
         <div className="grid lg:grid-cols-12 gap-8">
           {/* Responsive Filters Panel Wrapper */}
-         
           <div 
             className={cn(
               "fixed inset-0 bg-black/60 z-40 lg:hidden transition-opacity duration-300",
@@ -212,14 +206,28 @@ export default function ServicesPage() {
           </section>
 
           {/* Map View */}
-          {showMapView && (
-            <aside className="fixed inset-0 lg:relative lg:inset-auto lg:col-span-4 z-20">
-              <ServicesMapView 
-                professionals={filteredProfessionals}
-                onClose={() => setShowMapView(false)} 
-              />
-            </aside>
-          )}
+          {/* Backdrop for Map */}
+          <div 
+            className={cn(
+              "fixed inset-0 bg-primary/40 z-60 lg:hidden transition-opacity duration-300 backdrop-blur-md",
+              showMapView ? "opacity-100" : "opacity-0 pointer-events-none"
+            )}
+            onClick={() => setShowMapView(false)}
+          />
+
+          {/* Map Aside Container */}
+          <aside className={cn(
+            "fixed inset-y-0 right-0 z-70 w-full transform transition-transform duration-500 ease-in-out lg:translate-x-0",
+            "lg:relative lg:inset-auto lg:col-span-4 lg:block",
+            showMapView ? "translate-x-0" : "translate-x-full",
+            !showMapView && "lg:hidden" 
+          )}>
+            <ServicesMapView 
+              professionals={filteredProfessionals}
+              onClose={() => setShowMapView(false)} 
+            />
+          </aside>
+
         </div>
       </main>
     </div>
