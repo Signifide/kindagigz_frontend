@@ -21,7 +21,7 @@ export default function DashboardPage() {
     if (isLoading) return;
 
     if (!isAuthenticated) {
-      toast.error('Not authenticated, redirecting to login');
+      // toast.error('Not authenticated, redirecting to login');
       router.push(ROUTES.LOGIN);
       return;
     }

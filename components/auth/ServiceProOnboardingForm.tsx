@@ -367,7 +367,7 @@ export function ServiceProOnboardingForm({
             <option value={0}>Select a category</option>
             {categories.map(category => (
               <option key={category.id} value={category.id}>
-                {category.icon} {category.name} ({category.services_count} services)
+                {category.icon} {category.name}
               </option>
             ))}
           </select>
@@ -422,7 +422,7 @@ export function ServiceProOnboardingForm({
           )}
 
           {/* Show selected services details */}
-          {formData.service_ids.length > 0 && (
+          {/* {formData.service_ids.length > 0 && (
             <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
               <p className="text-sm font-semibold text-blue-900 mb-2">
                 Selected Services:
@@ -442,7 +442,7 @@ export function ServiceProOnboardingForm({
                   ))}
               </ul>
             </div>
-          )}
+          )} */}
         </div>
       )}
 
