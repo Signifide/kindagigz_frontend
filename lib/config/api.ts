@@ -4,15 +4,14 @@
  */
 
 // Environment-based base URL
-// export const API_BASE_URL: string =
-//   process.env.NEXT_PUBLIC_API_BASE_URL ??
-//   (process.env.NODE_ENV === 'production'
-//     ? 'https://kindagigz-backend.onrender.com'
-//     : 'http://localhost:8000');
+export const API_BASE_URL: string =
+  process.env.NEXT_PUBLIC_API_BASE_URL ??
+  (process.env.NODE_ENV === 'production'
+    ? 'https://kindagigz-backend.onrender.com'
+    : 'http://localhost:8000');
 
-export const API_BASE_URL = 'https://kindagigz-backend.onrender.com';
+// export const API_BASE_URL = 'https://kindagigz-backend.onrender.com';
 
-// Define the Shape
 interface ApiEndpoints {
   AUTH: {
     REGISTER: string;
